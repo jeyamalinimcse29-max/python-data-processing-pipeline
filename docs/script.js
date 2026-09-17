@@ -3,9 +3,23 @@ const refreshBtn = document.getElementById('refreshBtn');
 const statusEl = document.getElementById('status');
 const logsEl = document.getElementById('logs');
 
-async function fetchJSON(url) {
-    const res = await fetch(url);
-    return res.json();
+runBtn.disabled = true;
+statusEl.textContent = 'Run Pipeline requires local Flask server';
+
+const REPO = 'jeyamalinimcse29-max/python-data-processing-pipeline';
+const BRANCH = 'master';
+const raw = (path) => `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${path}`;
+
+function parseCSV(text) {
+    const lines = text.trim().split(/\r?\n/);
+    if (lines.length < 2) return [];
+    const headers = lines[0].split(',').map(h => h.trim());
+    return lines.slice(1).map(line => {
+        const values = line.split(',');
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = values[i] ? values[i].trim() : '');
+        return obj;
+    });
 }
 
 function renderTable(tableId, data) {
@@ -39,14 +53,16 @@ function renderTable(tableId, data) {
 
 async function loadData() {
     try {
-        const [inputData, outputData, logs] = await Promise.all([
-            fetchJSON('/api/input'),
-            fetchJSON('/api/output'),
-            fetchJSON('/api/logs')
+        const [inputText, outputText] = await Promise.all([
+            fetch(raw('input.csv')).then(r => r.text()),
+            fetch(raw('output.csv')).then(r => r.text())
         ]);
+        const inputData = parseCSV(inputText);
+        const outputData = parseCSV(outputText);
         renderTable('inputTable', inputData);
         renderTable('outputTable', outputData);
-        logsEl.textContent = logs.logs || 'No logs yet';
+        logsEl.textContent = 'Static GitHub Pages view. Run Pipeline is available only on local Flask server at http://localhost:5000';
+        statusEl.textContent = '';
     } catch (e) {
         statusEl.textContent = 'Error loading data';
         console.error(e);
@@ -54,19 +70,7 @@ async function loadData() {
 }
 
 async function runPipeline() {
-    statusEl.textContent = 'Running...';
-    runBtn.disabled = true;
-    try {
-        const res = await fetch('/api/run', { method: 'POST' });
-        const data = await res.json();
-        statusEl.textContent = data.message || 'Done';
-        await loadData();
-    } catch (e) {
-        statusEl.textContent = 'Error running pipeline';
-        console.error(e);
-    } finally {
-        runBtn.disabled = false;
-    }
+    statusEl.textContent = 'Run Pipeline is only available on local Flask server';
 }
 
 runBtn.addEventListener('click', runPipeline);
