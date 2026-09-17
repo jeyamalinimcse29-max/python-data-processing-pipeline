@@ -1,0 +1,7 @@
+id,name,age,salary,department,salary_category
+1,Jeyamalini,19,25000.0,IT,Medium
+2,Arun,0,30000.0,HR,Medium
+3,Priya,20,0.0,Finance,Low
+4,Ravi,0,28000.0,IT,Medium
+5,Divya,21,32000.0,Unknown,Medium
+6,Kumar,22,0.0,HR,Low
