@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuvtech Data Pipeline Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Python Data Processing Pipeline</h1>
+        <p>Read → Clean → Transform → Output</p>
+    </header>
+
+    <main>
+        <section class="controls">
+            <button id="runBtn">Run Pipeline</button>
+            <button id="refreshBtn">Refresh Data</button>
+            <span id="status"></span>
+        </section>
+
+        <section class="grid">
+            <div class="card">
+                <h2>Input Data</h2>
+                <div class="table-wrap">
+                    <table id="inputTable">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Output Data</h2>
+                <div class="table-wrap">
+                    <table id="outputTable">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="card full">
+            <h2>Pipeline Logs</h2>
+            <pre id="logs"></pre>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
