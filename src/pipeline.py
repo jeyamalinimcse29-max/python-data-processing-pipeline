@@ -46,6 +46,8 @@ def run_pipeline():
 
     print("Pipeline completed successfully")
     print("Output file:", output_file)
+    return output_file
 
 
-run_pipeline()
+if __name__ == "__main__":
+    run_pipeline()
